@@ -1,4 +1,4 @@
-local Aiming = loadstring(game:HttpGet("https://pastebin.com/raw/rnjQmBRb"))()
+local Aiming = loadstring(game:HttpGet("https://raw.githubusercontent.com/paperynnn1/Silent-Aim/main/SILENTAIMSOURCE"))()
 Aiming.TeamCheck(false)
 
 local Workspace = game:GetService("Workspace")

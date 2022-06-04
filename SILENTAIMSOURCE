@@ -450,7 +450,7 @@ if Aiming.AutoPredict == true then
  if  ping < 30 then
          DaHoodSettings.Prediction = 0.14
         elseif ping < 40 then
-           DaHoodSettings.Prediction = = 0.157
+           DaHoodSettings.Prediction = 0.157
 elseif ping < 60 then
 DaHoodSettings.Prediction = 0.0037
 elseif ping < 70 then

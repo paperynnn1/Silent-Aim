@@ -38,21 +38,23 @@ getgenv().Aiming = {
     Enabled = false,
 
     ShowFOV = false,
-    FOV = 119,
-    FOVSides = 300,
+    FOV = 199,
+    FOVSides = 8,
     FOVColour = Color3fromRGB(140,0,255),
     FOVFilled = false,
     FOVTransparency = 4,
     FOVThick = 2,
+    FrequentAirs = true,
+    AutoPredict = false,
 
     VisibleCheck = false,
     
-    HitChance = 100,
+    HitChance = 110,
 
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = {"Head", "UpperTorso", "HumanoidRootPart", "LowerTorso", "RightFoot", "LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm"},
+    TargetPart = {"Head", "UpperTorso", "HumanoidRootPart", "LowerTorso"},
 
     Ignored = {
         Teams = {
@@ -438,6 +440,46 @@ Heartbeat:Connect(function()
     Aiming.UpdateFOV()
     Aiming.GetClosestPlayerToCursor()
 end)
+if Aiming.AutoPredict == true then
+    wait(5.2)
+        local pingvalue = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+        local split = string.split(pingvalue,'(')
+        local ping = tonumber(split[1])
+            local PingNumber = pingValue[1]
+
+ if  ping < 30 then
+         DaHoodSettings.Prediction = 0.14
+        elseif ping < 40 then
+           DaHoodSettings.Prediction = = 0.157
+elseif ping < 60 then
+DaHoodSettings.Prediction = 0.0037
+elseif ping < 70 then
+DaHoodSettings.Prediction = 0.1770
+elseif ping < 80 then
+DaHoodSettings.Prediction = 0.133
+elseif ping < 90 then
+DaHoodSettings.Prediction = 0.128 
+elseif ping < 100 then
+DaHoodSettings.Prediction = 0.120
+elseif ping < 110 then
+DaHoodSettings.Prediction = 0.1324
+elseif ping < 150 then
+        end
+    end
+      if Aiming.FrequentAirs == true then
+
+        if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
+            Aiming.TargetPart = "RightFoot"
+        else
+            Plr.Character:WaitForChild("Humanoid").StateChanged:Connect(function(old,new)
+                if new == Enum.HumanoidStateType.Freefall then
+                Aiming.TargetPart = "LeftFoot"
+                else
+                    Aiming.TargetPart = "LowerTorso"
+                end
+            end)
+        end
+    end
 
 -- //
 return Aiming

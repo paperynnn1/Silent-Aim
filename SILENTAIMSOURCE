@@ -37,18 +37,18 @@ local tableinsert = table.insert
 getgenv().Aiming = {
     Enabled = true,
 
-    ShowFOV = true,
-    FOV = 299,
-    FOVSides = 8,
-    FOVColour = Color3fromRGB(140,0,255),
+    ShowFOV = false,
+    FOV = 119,
+    FOVSides = 300,
+    FOVColour = Color3fromRGB(0, 147, 255),
+    FOVThickness = 5,
     FOVFilled = false,
-    FOVThick = 5,
-    FrequentAirs = false,
-    AutoPredict = false,
+  
 
     VisibleCheck = false,
-    
+    Airshotss = false,
     HitChance = 110,
+    AutoPredict = false
 
     Selected = nil,
     SelectedPart = nil,
@@ -64,7 +64,7 @@ getgenv().Aiming = {
         },
         Players = {
             LocalPlayer,
-            1594642182
+            91318356
         }
     }
 }
@@ -72,8 +72,8 @@ local Aiming = getgenv().Aiming
 
 -- // Create circle
 local circle = Drawingnew("Circle")
-circle.Transparency = 2
-circle.Thickness = Aiming.FOVThick
+circle.Transparency = 1
+circle.Thickness = 2
 circle.Color = Aiming.FOVColour
 circle.Filled = Aiming.FOVFilled
 Aiming.FOVCircle = circle
@@ -91,8 +91,6 @@ function Aiming.UpdateFOV()
     circle.Position = Vector2new(Mouse.X, Mouse.Y + GetGuiInset(GuiService).Y)
     circle.NumSides = Aiming.FOVSides
     circle.Color = Aiming.FOVColour
-    circle.Filled = Aiming.FOVFilled
-    circle.Transparency = Aiming.FOVTransparency
 
     -- // Return circle
     return circle
@@ -439,6 +437,20 @@ Heartbeat:Connect(function()
     Aiming.UpdateFOV()
     Aiming.GetClosestPlayerToCursor()
 end)
+ if Aiming.Airhostss == true then
+
+        if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
+            Aiming.TargetPart = "RightFoot","LeftFoot"
+        else
+            Plr.Character:WaitForChild("Humanoid").StateChanged:Connect(function(old,new)
+                if new == Enum.HumanoidStateType.Freefall then
+                Aiming.TargetPart = "LeftFoot"
+                else
+                    Aiming.TargetPart = "LowerTorso"
+                end
+            end)
+        end
+    end
 if Aiming.AutoPredict == true then
     wait(5.2)
         local pingvalue = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
@@ -453,7 +465,7 @@ if Aiming.AutoPredict == true then
 elseif ping < 60 then
 DaHoodSettings.Prediction = 0.0037
 elseif ping < 70 then
-DaHoodSettings.Prediction = 0.1770
+DaHoodSettings.Prediction = 0.17
 elseif ping < 80 then
 DaHoodSettings.Prediction = 0.133
 elseif ping < 90 then
@@ -465,20 +477,5 @@ DaHoodSettings.Prediction = 0.1324
 elseif ping < 150 then
         end
     end
-      if Aiming.FrequentAirs == true then
-
-        if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
-            Aiming.TargetPart = "RightFoot"
-        else
-            Plr.Character:WaitForChild("Humanoid").StateChanged:Connect(function(old,new)
-                if new == Enum.HumanoidStateType.Freefall then
-                Aiming.TargetPart = "LeftFoot"
-                else
-                    Aiming.TargetPart = "LowerTorso"
-                end
-            end)
-        end
-    end
-
 -- //
 return Aiming

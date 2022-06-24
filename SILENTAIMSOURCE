@@ -40,9 +40,10 @@ getgenv().Aiming = {
     ShowFOV = false,
     FOV = 119,
     FOVSides = 300,
-    FOVColour = Color3fromRGB(193, 223, 240),
+    FOVColour = Color3fromRGB(255, 0, 0),
     FOVThickness = 5,
     FOVFilled = false,
+    FOVRainbow = false,
   
 
     VisibleCheck = false,
@@ -84,6 +85,9 @@ function Aiming.UpdateFOV()
     if not (circle) then
         return
     end
+if Aiming.FOVRainbow == true then
+Aiming.FOVColour = Color3.fromHSV(i, 1, 1)
+end
 
     -- // Set Circle Properties
     circle.Visible = Aiming.ShowFOV

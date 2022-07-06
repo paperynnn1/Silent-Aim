@@ -38,23 +38,18 @@ getgenv().Aiming = {
     Enabled = true,
 
     ShowFOV = false,
-    FOV = 119,
-    FOVSides = 300,
-    FOVColour = Color3fromRGB(255, 0, 0),
-    FOVThickness = 5,
-    FOVFilled = false,
-    FOVRainbow = false,
-  
+    FOV = 18,
+    FOVSides = 25,
+    FOVColour = Color3fromRGB(5, 255, 25),
 
-    VisibleCheck = false,
-    Airshotss = false,
-    HitChance = 110,
-    AutoPredict = false,
+    VisibleCheck = true,
+    
+    HitChance = 100,
 
     Selected = nil,
     SelectedPart = nil,
 
-    TargetPart = {"Head", "UpperTorso", "HumanoidRootPart", "LowerTorso"},
+    TargetPart = {"Head", "LeftHand", "RightHand", "LeftLowerArm", "RightLowerArm", "LeftUpperArm", "RightUpperArm", "LeftFoot", "LeftLowerLeg", "UpperTorso", "LeftUpperLeg", "RightLowerLeg", "RightFoot", "LowerTorso", "RightUpperLeg"},
 
     Ignored = {
         Teams = {
@@ -65,7 +60,7 @@ getgenv().Aiming = {
         },
         Players = {
             LocalPlayer,
-            91318356
+            354283439
         }
     }
 }
@@ -73,10 +68,10 @@ local Aiming = getgenv().Aiming
 
 -- // Create circle
 local circle = Drawingnew("Circle")
-circle.Transparency = 1
-circle.Thickness = Aiming.FOVThickness
+circle.Transparency = 0.4
+circle.Thickness = 0.8
 circle.Color = Aiming.FOVColour
-circle.Filled = Aiming.FOVFilled
+circle.Filled = false
 Aiming.FOVCircle = circle
 
 -- // Update
@@ -85,9 +80,6 @@ function Aiming.UpdateFOV()
     if not (circle) then
         return
     end
-if Aiming.FOVRainbow == true then
-Aiming.FOVColour = Color3.fromHSV(i, 1, 1)
-end
 
     -- // Set Circle Properties
     circle.Visible = Aiming.ShowFOV
@@ -144,6 +136,15 @@ function Aiming.IsPartVisible(Part, PartDescendant)
     return false
 end
 
+local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
+
+local Notify = AkaliNotif.Notify;
+
+Notify({
+Description = "STREAMPROOF SILENT AIM LOADED";
+Title = "Yuki";
+Duration = 2.5;
+});
 -- // Ignore player
 function Aiming.IgnorePlayer(Player)
     -- // Vars
@@ -441,45 +442,8 @@ Heartbeat:Connect(function()
     Aiming.UpdateFOV()
     Aiming.GetClosestPlayerToCursor()
 end)
- if Aiming.Airhostss == true then
 
-        if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
-            Aiming.TargetPart = "RightFoot","LeftFoot"
-        else
-            Plr.Character:WaitForChild("Humanoid").StateChanged:Connect(function(old,new)
-                if new == Enum.HumanoidStateType.Freefall then
-                Aiming.TargetPart = "LeftFoot"
-                else
-                    Aiming.TargetPart = "LowerTorso"
-                end
-            end)
-        end
-    end
-if Aiming.AutoPredict == true then
-    wait(5.2)
-        local pingvalue = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-        local split = string.split(pingvalue,'(')
-        local ping = tonumber(split[1])
-            local PingNumber = pingValue[1]
-
- if  ping < 30 then
-         DaHoodSettings.Prediction = 0.14
-        elseif ping < 40 then
-           DaHoodSettings.Prediction = 0.157
-elseif ping < 60 then
-DaHoodSettings.Prediction = 0.0037
-elseif ping < 70 then
-DaHoodSettings.Prediction = 0.17
-elseif ping < 80 then
-DaHoodSettings.Prediction = 0.133
-elseif ping < 90 then
-DaHoodSettings.Prediction = 0.128 
-elseif ping < 100 then
-DaHoodSettings.Prediction = 0.120
-elseif ping < 110 then
-DaHoodSettings.Prediction = 0.1324
-elseif ping < 150 then
-        end
-    end
 -- //
 return Aiming
+
+-- // If you want the examples, look at the docs.
